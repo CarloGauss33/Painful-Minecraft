@@ -1,13 +1,12 @@
 package com.McPain.McPain;
 import net.minecraft.client.entity.player.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.client.Minecraft;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.common.MinecraftForge;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,6 +31,25 @@ public class McPain{
             CloseableHttpClient httpClient = HttpClients.createDefault();
             try {
                 HttpGet request = new HttpGet("http://127.0.0.1:5000/");
+        
+                System.out.println("bb");
+                CloseableHttpResponse response = httpClient.execute(request);
+                System.out.println(response);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void CheckDeath(LivingDeathEvent e){
+        if (e.getEntityLiving() instanceof PlayerEntity || e.getEntityLiving() instanceof ClientPlayerEntity){
+            System.out.println("AA");
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            try {
+                HttpGet request = new HttpGet("http://127.0.0.1:5000/death");
+        
                 System.out.println("bb");
                 CloseableHttpResponse response = httpClient.execute(request);
                 System.out.println(response);
